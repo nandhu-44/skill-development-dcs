@@ -1,21 +1,27 @@
 # Diabetes Prediction System
 
-A comprehensive web application for predicting diabetes likelihood based on medical input parameters. This project uses machine learning (Random Forest Classifier) and a Flask web interface.
+A comprehensive web application for predicting diabetes likelihood based on medical input parameters. This project uses machine learning (Random Forest Classifier) and provides both Flask and FastAPI implementations with Docker support.
 
 ## Project Structure
 
-- **app.py**: The main Flask application file handling web requests and predictions.
+- **main.py**: FastAPI application providing REST API endpoints for diabetes prediction with automatic documentation.
+- **app.py**: Flask web application with traditional web interface.
 - **train.py**: Script to train the machine learning model using the dataset.
 - **models/**: Directory where the trained model (diabetes_model.pkl) is saved.
-- **templates/**: HTML files for the web interface.
+- **templates/**: HTML files for the Flask web interface.
 - **static/**: CSS and other static assets.
 - **requirements.txt**: List of Python dependencies.
+- **Dockerfile**: Docker configuration for containerized deployment.
+- **docker-build.bat** & **docker-run.bat**: Windows batch scripts for Docker operations.
 
 ## Prerequisites
 
 - Python 3.8 or higher installed on your system.
+- Docker (optional, for containerized deployment).
 
 ## Setup Instructions
+
+### Local Development
 
 1. **Install Dependencies**
 
@@ -35,17 +41,61 @@ A comprehensive web application for predicting diabetes likelihood based on medi
 
     This will download the dataset, train the Random Forest model, and save it to `models/diabetes_model.pkl`.
 
-3. **Run the Application**
+### Running the Applications
 
-    Start the Flask web server:
+#### Option 1: FastAPI with Uvicorn (Recommended)
+
+Run the FastAPI application with Uvicorn:
+
+```bash
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+- **API Documentation**: Visit <http://127.0.0.1:8000/docs> for interactive API documentation
+- **Health Check**: <http://127.0.0.1:8000/health>
+- **API Endpoint**: POST to <http://127.0.0.1:8000/predict> with JSON payload
+
+#### Option 2: Flask Application
+
+Start the Flask web server:
+
+```bash
+python app.py
+```
+
+Access the web interface at <http://127.0.0.1:5000>
+
+### Docker Deployment
+
+#### Using Batch Scripts (Windows)
+
+1. **Build the Docker Image**
 
     ```bash
-    python app.py
+    docker-build.bat
     ```
 
-4. **Access the Application**
+2. **Run the Container**
 
-    Open your web browser and navigate to the address shown in the terminal (usually <http://127.0.0.1:5000>).
+    ```bash
+    docker-run.bat
+    ```
+
+#### Manual Docker Commands
+
+1. **Build the Docker Image**
+
+    ```bash
+    docker build -t diabetes-prediction-app .
+    ```
+
+2. **Run the Container**
+
+    ```bash
+    docker run -p 8000:8000 diabetes-prediction-app
+    ```
+
+The application will be available at <http://localhost:8000>
 
 ## Usage
 
